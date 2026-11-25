@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Mallard Duck Movement",
+    "section": "",
+    "text": "Mallards tracked with GPS move widely around Lake Constance, a large lake on the borders of Germany, Switzerland, and Austria. The Map follows their fixes and travel paths across central Europe, showing how individuals are distributed over the tracking region.\nThe Seasons page explores when movement occurs. Month-by-month plots reveal changes in mallard travel speeds, while the data are grouped into seasons to make recurring patterns easier to compare.\nThe data come from mallard tracking observations in the PPBDS/misc.tutorials repository. Lake Constance (also called Bodensee) provides a natural regional reference point for understanding the locations and movement patterns in the dataset."
+  },
+  {
+    "objectID": "seasons.html",
+    "href": "seasons.html",
+    "title": "Seasons",
+    "section": "",
+    "text": "# A tibble: 12 × 3\n   month     month_num gps_fixes\n   &lt;ord&gt;         &lt;dbl&gt;     &lt;int&gt;\n 1 January           1      3266\n 2 February          2      4960\n 3 March             3      7524\n 4 April             4      6369\n 5 May               5      3423\n 6 June              6      2842\n 7 July              7      5748\n 8 August            8      9659\n 9 September         9     20977\n10 October          10      9890\n11 November         11      4825\n12 December         12      3796\n\n\n\n\n# A tibble: 1 × 8\n  observations missing minimum    q1 median  mean    q3 maximum\n         &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;\n1        80967    2312       0   0.1   0.22 0.416  0.44    127.\n\n\n\n\nPicking joint bandwidth of 0.0381"
+  }
+]
