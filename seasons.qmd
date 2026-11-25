@@ -1,0 +1,62 @@
+---
+title: "Seasons"
+---
+
+```{r}
+#| message: false
+
+library(tidyverse)
+library(ggridges)
+```
+
+```{r}
+mallards <- readRDS("data/mallards.rds")
+```
+
+```{r}
+mallards |>
+  count(month, month_num, name = "gps_fixes") |>
+  arrange(month_num)
+```
+
+```{r}
+mallards |>
+  summarize(
+    observations = sum(!is.na(speed)),
+    missing = sum(is.na(speed)),
+    minimum = min(speed, na.rm = TRUE),
+    q1 = quantile(speed, 0.25, na.rm = TRUE),
+    median = median(speed, na.rm = TRUE),
+    mean = mean(speed, na.rm = TRUE),
+    q3 = quantile(speed, 0.75, na.rm = TRUE),
+    maximum = max(speed, na.rm = TRUE)
+  )
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 7
+
+mallards |>
+  filter(!is.na(speed), speed <= 30) |>
+  mutate(month = factor(month, levels = month.name)) |>
+  ggplot(aes(x = speed, y = month, fill = month)) +
+  geom_density_ridges(
+    scale = 1.1,
+    rel_min_height = 0.01,
+    alpha = 0.8
+  ) +
+  scale_fill_viridis_d(option = "cividis", guide = "none") +
+  labs(
+    title = "Mallard speed distributions by month",
+    subtitle = "GPS fixes with speeds of 30 m/s or less",
+    x = "Speed (m/s)",
+    y = NULL
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 18),
+    plot.subtitle = element_text(size = 11),
+    panel.grid.major.y = element_blank()
+  )
+```
