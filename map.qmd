@@ -1,0 +1,90 @@
+---
+title: "Map"
+---
+
+```{r}
+#| echo: false
+#| include: false
+#| message: false
+
+library(tidyverse)
+library(sf)
+library(rnaturalearth)
+```
+
+```{r}
+#| echo: false
+#| include: false
+#| message: false
+#| cache: true
+mallards <- read_csv("data/mallards.csv") |>
+  mutate(
+    timestamp = ymd_hms(timestamp),
+    month = month(timestamp, label = TRUE, abbr = FALSE),
+    month_num = month(timestamp),
+    year = year(timestamp),
+    season = case_when(
+      month_num %in% 3:5 ~ "Spring",
+      month_num %in% 6:8 ~ "Summer",
+      month_num %in% 9:11 ~ "Autumn",
+      TRUE ~ "Winter"
+    ),
+    season = factor(season, levels = c("Spring", "Summer", "Autumn", "Winter"))
+  )
+
+saveRDS(mallards, "data/mallards.rds")
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 9
+#| fig-height: 7
+mallards_mapped <- mallards |>
+  filter(!is.na(lat), !is.na(long)) |>
+  arrange(timestamp)
+
+countries <- ne_countries(scale = "medium", returnclass = "sf")
+
+ggplot() +
+  geom_sf(
+    data = countries,
+    fill = "#f4f1e8",
+    color = "#a3a3a3",
+    linewidth = 0.25
+  ) +
+  geom_path(
+    data = mallards_mapped,
+    aes(x = long, y = lat, group = duck_id, color = duck_id),
+    linewidth = 0.22,
+    alpha = 0.5
+  ) +
+  geom_point(
+    data = mallards_mapped,
+    aes(x = long, y = lat, color = duck_id),
+    size = 0.16,
+    alpha = 0.35
+  ) +
+  scale_color_viridis_d(option = "turbo", guide = "none") +
+  coord_sf(
+    xlim = c(7.5, 24),
+    ylim = c(47, 54.5),
+    expand = FALSE,
+    datum = NA
+  ) +
+  labs(
+    title = "Mallard GPS Movement",
+    subtitle = "Paths and GPS fixes for 52 individually tracked mallards",
+    caption = "Source: Mallard tracking data"
+  ) +
+  theme_void() +
+  theme(
+    plot.title = element_text(face = "bold", size = 18, hjust = 0),
+    plot.subtitle = element_text(size = 11, hjust = 0, margin = margin(b = 8)),
+    plot.caption = element_text(size = 8, color = "gray40", hjust = 1),
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "#eaf4f7", color = NA),
+    plot.margin = margin(12, 12, 12, 12)
+  )
+```
