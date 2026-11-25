@@ -2,6 +2,8 @@
 title: "Mallard Duck Movement"
 ---
 
-This is a Quarto website.
+Mallards tracked with GPS move widely around Lake Constance, a large lake on the borders of Germany, Switzerland, and Austria. The [Map](map.qmd) follows their fixes and travel paths across central Europe, showing how individuals are distributed over the tracking region.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+The [Seasons](seasons.qmd) page explores when movement occurs. Month-by-month plots reveal changes in mallard travel speeds, while the data are grouped into seasons to make recurring patterns easier to compare.
+
+The data come from mallard tracking observations in the `PPBDS/misc.tutorials` repository. Lake Constance (also called Bodensee) provides a natural regional reference point for understanding the locations and movement patterns in the dataset.
